@@ -2,11 +2,13 @@ package com.esper.cepengine.eventproducer;
 
 import com.esper.cepengine.dto.Earthquake;
 import com.esper.cepengine.util.ObjectMapperHelper;
+import com.esper.cepengine.util.ThreadUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -34,14 +36,17 @@ public class EventProducer {
         this.objectMapper = objectMapper;
     }
 
-
-    @Scheduled(fixedDelay = 5000)
+    @Async
     public void call(){
-
-        List<Earthquake> data = objectMapperHelper.getData();
-
-        processAndSendData(data);
-
+        while(true){
+            try {
+                List<Earthquake> data = objectMapperHelper.getData();
+                processAndSendData(data);
+            }catch (Exception e){
+                log.error("Error ", e);
+            }
+            ThreadUtil.sleepForSecond(5);
+        }
     }
     public void processAndSendData(List<Earthquake> data) {
         try {

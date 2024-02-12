@@ -6,25 +6,5 @@
   {
     "magnitude": "6.5",
     "location": "Location2"
-  },
-  {
-    "magnitude": "5.8",
-    "location": "Location3"
-  },
-  {
-    "magnitude": "6.9",
-    "location": "Location4"
-  },
-  {
-    "magnitude": "6.3",
-    "location": "Location98"
-  },
-  {
-    "magnitude": "5.7",
-    "location": "Location99"
-  },
-  {
-    "magnitude": "7.1",
-    "location": "Location100"
   }
 ]
