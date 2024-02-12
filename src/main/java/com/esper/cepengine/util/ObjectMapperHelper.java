@@ -2,12 +2,14 @@ package com.esper.cepengine.util;
 
 import com.esper.cepengine.dto.Earthquake;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+@Slf4j
 @Service
 public class ObjectMapperHelper {
 
@@ -23,9 +25,10 @@ public class ObjectMapperHelper {
 
             // Now you can work with the list of Earthquake objects
             for (Earthquake earthquake : earthquakes) {
-                System.out.println("Magnitude: " + earthquake.getMagnitude() + ", Location: " + earthquake.getLocation());
+                log.info("Magnitude: {} , Location: {} ",earthquake.getMagnitude() , earthquake.getLocation());
             }
         } catch (IOException e) {
+            log.info("some error occured");
             e.printStackTrace();
         }
 

@@ -21,6 +21,8 @@ public class EventProducer {
     public EventProducer(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
+
+
     @Scheduled(fixedDelay = 5000)
     public void call(){
 
