@@ -45,7 +45,7 @@ public class EventProducer {
             }catch (Exception e){
                 log.error("Error ", e);
             }
-            ThreadUtil.sleepForSecond(5);
+            ThreadUtil.sleepForSecond(30);
         }
     }
     public void processAndSendData(List<Earthquake> data) {
@@ -57,8 +57,9 @@ public class EventProducer {
                 // Convert Earthquake object to JSON
                 String jsonData = objectMapper.writeValueAsString(earthquake);
 
-                // Send JSON data to Kafka
+                log.info("Sending data to topic {} with payload {}",topic,jsonData);
                 kafkaTemplate.send(topic, jsonData);
+                ThreadUtil.sleepForSecond(5);
             }
         } catch (JsonProcessingException e) {
             // Handle JSON processing exception

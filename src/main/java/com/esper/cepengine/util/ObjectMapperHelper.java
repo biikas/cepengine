@@ -23,7 +23,6 @@ public class ObjectMapperHelper {
             Earthquake[] earthquakeArray = objectMapper.readValue(new File("src/main/resources/data.json"), Earthquake[].class);
             for (Earthquake earthquake : earthquakeArray) {
                 earthquakes.add(earthquake);
-                log.info("Magnitude: {}, Location: {}", earthquake.getMagnitude(), earthquake.getLocation());
             }
         } catch (IOException e) {
             log.error("Error occurred while reading data from JSON file", e);
