@@ -25,4 +25,12 @@ public class Earthquake {
         this.location = location;
     }
 
+    @Override
+    public String toString() {
+        return "Received from Kafka Earthquake{" +
+                "magnitude='" + magnitude + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
+
 }

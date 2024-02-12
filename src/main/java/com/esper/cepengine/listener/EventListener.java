@@ -1,5 +1,7 @@
 package com.esper.cepengine.listener;
 
+import com.esper.cepengine.dto.Earthquake;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -12,13 +14,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventListener {
 
-    @KafkaListener(topics = {"A","B","C"}, groupId = "group")
+    @KafkaListener(topics = {"A", "B", "C"}, groupId = "test")
     public void recieveFromTopic(String message) {
         try {
-            log.debug("********************* Consuming from topic ********************* ");
+            log.info("********************* Consuming from topic ********************* ");
 
-            //todo mapto dto and send to esper
+            ObjectMapper objectMapper = new ObjectMapper();
+            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
+            log.info(earthquake.toString());
 
+            //Todo sent to esprt
 
         } catch (Exception e) {
 
