@@ -1,7 +1,10 @@
 package com.esper.cepengine.listener;
 
 import com.esper.cepengine.dto.Earthquake;
+import com.esper.cepengine.esper.VolcanoEventHandler;
+import com.espertech.esper.client.EPServiceProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventListener {
 
+    @Autowired
+    private VolcanoEventHandler volcanoEventHandler;
+
     @KafkaListener(topics = {"A", "B", "C"}, groupId = "test")
     public void recieveFromTopic(String message) {
         try {
@@ -24,6 +30,7 @@ public class EventListener {
             log.info(earthquake.toString());
 
             //Todo sent to esprt
+            volcanoEventHandler.handle(earthquake);
 
         } catch (Exception e) {
 
@@ -31,4 +38,5 @@ public class EventListener {
             log.error("Error : ", e);
         }
     }
+
 }
