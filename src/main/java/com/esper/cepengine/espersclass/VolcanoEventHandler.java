@@ -1,10 +1,7 @@
-package com.esper.cepengine.esper;
+package com.esper.cepengine.espersclass;
 
 import com.esper.cepengine.dto.Earthquake;
-import com.espertech.esper.client.Configuration;
-import com.espertech.esper.client.EPServiceProvider;
-import com.espertech.esper.client.EPServiceProviderManager;
-import com.espertech.esper.client.EPStatement;
+import com.espertech.esper.client.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -28,7 +25,7 @@ public class VolcanoEventHandler implements InitializingBean {
 
     public void initService() {
         Configuration config = new Configuration();
-        config.addEventTypeAutoName("com.esper.cepengine.dto");
+        config.addEventType("Earthquake", Earthquake.class.getName());
         epService = EPServiceProviderManager.getDefaultProvider(config);
         createVolcanoCheckExpression();
     }
@@ -36,8 +33,10 @@ public class VolcanoEventHandler implements InitializingBean {
     private void createVolcanoCheckExpression() {
 
         log.debug("create Critical Temperature Check Expression");
-        volcanoEventStatement = epService.getEPAdministrator().createEPL(volcanoEventSuscriber.getStatement());
-        volcanoEventStatement.setSubscriber(volcanoEventSuscriber);
+        EPAdministrator epAdmin = epService.getEPAdministrator();
+        volcanoEventStatement = epAdmin.createEPL(volcanoEventSuscriber.getStatement());
+        volcanoEventStatement.addListener(new VolcanoEventSuscriber());
+
     }
 
 

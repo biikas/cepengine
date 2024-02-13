@@ -1,10 +1,8 @@
 package com.esper.cepengine.listener;
 
 import com.esper.cepengine.dto.Earthquake;
-import com.esper.cepengine.esper.VolcanoEventHandler;
-import com.espertech.esper.client.EPServiceProvider;
+import com.esper.cepengine.espersclass.VolcanoEventHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;

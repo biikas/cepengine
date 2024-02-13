@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -59,7 +58,6 @@ public class EventProducer {
 
                 log.info("Sending data to topic {} with payload {}",topic,jsonData);
                 kafkaTemplate.send(topic, jsonData);
-                ThreadUtil.sleepForSecond(5);
             }
         } catch (JsonProcessingException e) {
             // Handle JSON processing exception
