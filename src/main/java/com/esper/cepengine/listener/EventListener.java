@@ -1,7 +1,7 @@
 package com.esper.cepengine.listener;
 
 import com.esper.cepengine.dto.Earthquake;
-import com.esper.cepengine.espersclass.VolcanoEventHandler;
+import com.esper.cepengine.espersclass.EarthquakeEventHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +16,60 @@ import org.springframework.stereotype.Component;
 public class EventListener {
 
     @Autowired
-    private VolcanoEventHandler volcanoEventHandler;
+    private EarthquakeEventHandler earthquakeEventHandler;
 
-    @KafkaListener(topics = {"A", "B", "C"}, groupId = "test")
-    public void recieveFromTopic(String message) {
+    @KafkaListener(topics = {"A"}, groupId = "test")
+    public void recieveFromTopicA(String message) {
         try {
-            log.info("********************* Consuming from topic ********************* ");
+            log.info("********************* Consuming from topic A ********************* ");
 
             ObjectMapper objectMapper = new ObjectMapper();
             Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
+            earthquake.setTopic("A");
             log.info(earthquake.toString());
 
-            //Todo sent to esprt
-            volcanoEventHandler.handle(earthquake);
+            earthquakeEventHandler.handle(earthquake);
 
         } catch (Exception e) {
 
-            //todo  handle error
             log.error("Error : ", e);
         }
     }
+    @KafkaListener(topics = {"B"}, groupId = "test")
+    public void recieveFromTopicB(String message) {
+        try {
+            log.info("********************* Consuming from topic B********************* ");
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
+            earthquake.setTopic("B");
+
+            log.info(earthquake.toString());
+
+            earthquakeEventHandler.handle(earthquake);
+
+        } catch (Exception e) {
+
+            log.error("Error : ", e);
+        }
+    }@KafkaListener(topics = { "C"}, groupId = "test")
+    public void recieveFromTopicC(String message) {
+        try {
+            log.info("********************* Consuming from topic C ********************* ");
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
+            earthquake.setTopic("C");
+
+            log.info(earthquake.toString());
+
+            earthquakeEventHandler.handle(earthquake);
+
+        } catch (Exception e) {
+
+            log.error("Error : ", e);
+        }
+    }
+
 
 }

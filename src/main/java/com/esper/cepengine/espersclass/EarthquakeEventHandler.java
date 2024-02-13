@@ -13,29 +13,33 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Scope(value = "singleton")
-public class VolcanoEventHandler implements InitializingBean {
+public class EarthquakeEventHandler implements InitializingBean {
 
     private EPServiceProvider epService;
 
     private EPStatement volcanoEventStatement;
 
     @Autowired
-    private VolcanoEventSuscriber volcanoEventSuscriber;
+    private EarthQuakeEventSuscriber earthQuakeEventSuscriber;
 
 
     public void initService() {
-        Configuration config = new Configuration();
-        config.addEventType("Earthquake", Earthquake.class.getName());
-        epService = EPServiceProviderManager.getDefaultProvider(config);
-        createVolcanoCheckExpression();
+        try{
+            Configuration config = new Configuration();
+            config.addEventType("Earthquake", Earthquake.class.getName());
+            epService = EPServiceProviderManager.getDefaultProvider(config);
+            createVolcanoCheckExpression();
+        }catch (Exception e){
+            log.info("Initialized Esper: Data not found");
+        }
     }
 
     private void createVolcanoCheckExpression() {
 
         log.debug("create Critical Temperature Check Expression");
         EPAdministrator epAdmin = epService.getEPAdministrator();
-        volcanoEventStatement = epAdmin.createEPL(volcanoEventSuscriber.getStatement());
-        volcanoEventStatement.addListener(new VolcanoEventSuscriber());
+        volcanoEventStatement = epAdmin.createEPL(earthQuakeEventSuscriber.getStatement());
+        volcanoEventStatement.addListener(new EarthQuakeEventSuscriber());
 
     }
 

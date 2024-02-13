@@ -12,5 +12,6 @@ public class Earthquake {
 
     private String magnitude;
     private String location;
+    private String topic;
 
 }
