@@ -2,6 +2,7 @@ package com.esper.cepengine.listener;
 
 import com.esper.cepengine.dto.Earthquake;
 import com.esper.cepengine.espersclass.EarthquakeEventHandler;
+import com.esper.cepengine.manager.CEPInstanceManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class EventListener {
 
     @Autowired
     private EarthquakeEventHandler earthquakeEventHandler;
+    @Autowired
+    private CEPInstanceManager cepInstanceManager;
 
     @KafkaListener(topics = {"A"}, groupId = "test")
     public void recieveFromTopicA(String message) {
@@ -28,7 +31,7 @@ public class EventListener {
             earthquake.setTopic("A");
             log.info(earthquake.toString());
 
-            earthquakeEventHandler.handle(earthquake);
+            cepInstanceManager.getOrCreateInstance(earthquake);
 
         } catch (Exception e) {
 
@@ -46,13 +49,14 @@ public class EventListener {
 
             log.info(earthquake.toString());
 
-            earthquakeEventHandler.handle(earthquake);
+            cepInstanceManager.getOrCreateInstance(earthquake);
 
         } catch (Exception e) {
 
             log.error("Error : ", e);
         }
-    }@KafkaListener(topics = { "C"}, groupId = "test")
+    }
+    @KafkaListener(topics = { "C"}, groupId = "test")
     public void recieveFromTopicC(String message) {
         try {
             log.info("********************* Consuming from topic C ********************* ");
@@ -63,7 +67,7 @@ public class EventListener {
 
             log.info(earthquake.toString());
 
-            earthquakeEventHandler.handle(earthquake);
+            cepInstanceManager.getOrCreateInstance(earthquake);
 
         } catch (Exception e) {
 
