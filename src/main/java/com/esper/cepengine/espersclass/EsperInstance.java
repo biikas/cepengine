@@ -4,7 +4,6 @@ import com.esper.cepengine.dto.Earthquake;
 import com.espertech.esper.client.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,12 +12,6 @@ public class EsperInstance implements InitializingBean {
 
     private EPServiceProvider epService;
     private EPStatement volcanoEventStatement;
-
-    @Autowired
-    private EarthQuakeEventSuscriber earthQuakeEventSuscriber;
-
-    @Autowired
-    private EarthquakeEventHandler earthquakeEventHandler;
 
     public EsperInstance() {}
 

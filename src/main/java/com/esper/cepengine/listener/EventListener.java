@@ -1,7 +1,6 @@
 package com.esper.cepengine.listener;
 
 import com.esper.cepengine.dto.Earthquake;
-import com.esper.cepengine.espersclass.EarthquakeEventHandler;
 import com.esper.cepengine.manager.CEPInstanceManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventListener {
 
-    @Autowired
-    private EarthquakeEventHandler earthquakeEventHandler;
     @Autowired
     private CEPInstanceManager cepInstanceManager;
 
