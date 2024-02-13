@@ -1,6 +1,8 @@
 package com.esper.cepengine.manager;
 
 import com.esper.cepengine.dto.Earthquake;
+import com.esper.cepengine.espersclass.EarthQuakeEventSuscriber;
+import com.esper.cepengine.espersclass.EarthquakeEventHandler;
 import com.esper.cepengine.espersclass.EsperInstance;
 import com.espertech.esper.client.EPServiceProvider;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 @Slf4j
-public class CEPInstanceManager  {
+public class CEPInstanceManager {
 
-    //private EPServiceProvider epService;
+    private EPServiceProvider epService;
 
     private final Map<String, EsperInstance> esperInstances = new ConcurrentHashMap<>();
 
     public void getOrCreateInstance(Earthquake earthquake) {
         new EsperInstance(earthquake);
-        //esperInstances.computeIfAbsent(earthquake.getTopic(), t -> new EsperInstance(earthquake));
     }
 
     public void stopInstance(String topic) {

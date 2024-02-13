@@ -2,6 +2,7 @@ package com.esper.cepengine.espersclass;
 
 import com.esper.cepengine.dto.Earthquake;
 import com.espertech.esper.client.*;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-@Scope(value = "singleton")
-public class EarthquakeEventHandler implements InitializingBean {
+public class EarthquakeEventHandler {
 
     private EPServiceProvider epService;
 
@@ -51,7 +51,7 @@ public class EarthquakeEventHandler implements InitializingBean {
 
     }
 
-    @Override
+    @PostConstruct
     public void afterPropertiesSet() {
 
         log.debug("Configuring..");
