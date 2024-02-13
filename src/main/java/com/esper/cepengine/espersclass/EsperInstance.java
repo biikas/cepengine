@@ -45,6 +45,7 @@ public class EsperInstance implements InitializingBean {
                 handleCriticalEvent(magnitude, location, topic);
             }
         });
+        volcanoEventStatement.destroy();
     }
 
     private void handleCriticalEvent(String magnitude, String location, String topic) {
