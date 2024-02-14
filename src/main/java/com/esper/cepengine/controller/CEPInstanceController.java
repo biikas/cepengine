@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/instances")
 public class CEPInstanceController {
 
-//    private final CEPInstanceManager cepInstanceManager;
+    @Autowired
+    private  CEPInstanceManager cepInstanceManager;
 //
 //    @Autowired
 //    public CEPInstanceController(CEPInstanceManager cepInstanceManager) {
@@ -27,8 +28,8 @@ public class CEPInstanceController {
 //        //cepInstanceManager.getOrCreateInstance(topic,new Earthquake());
 //    }
 //
-//    @PostMapping("/{topic}/stop")
-//    public void stopInstance(@PathVariable String topic) {
-//        cepInstanceManager.stopInstance(topic);
-//    }
+    @PostMapping("/{topic}/stop")
+    public void stopInstance(@PathVariable String topic) {
+        cepInstanceManager.stopInstance(topic);
+    }
 }

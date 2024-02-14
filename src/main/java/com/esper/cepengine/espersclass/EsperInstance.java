@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class EsperInstance implements InitializingBean {
 
     private EPServiceProvider epService;
-    private EPStatement volcanoEventStatement;
+    private EPStatement epStatement;
 
     public EsperInstance() {}
 
@@ -22,7 +22,7 @@ public class EsperInstance implements InitializingBean {
         epService = EPServiceProviderManager.getDefaultProvider(config);
         configureStatements();
         sendEvent(earthquake);
-        volcanoEventStatement.destroy();
+        epStatement.destroy();
     }
 
     public void sendEvent(Earthquake event) {
@@ -31,8 +31,8 @@ public class EsperInstance implements InitializingBean {
 
     private void configureStatements() {
         EPAdministrator epAdmin = epService.getEPAdministrator();
-        volcanoEventStatement = epAdmin.createEPL("select magnitude, location, topic from Earthquake where magnitude >= '7.2'");
-        volcanoEventStatement.addListener(new EsperListner());
+        epStatement = epAdmin.createEPL("select magnitude, location, topic from Earthquake where magnitude >= '7.2'");
+        epStatement.addListener(new EsperListner());
     }
 
 
