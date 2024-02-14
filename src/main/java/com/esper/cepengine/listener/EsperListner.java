@@ -10,7 +10,7 @@ public class EsperListner implements UpdateListener {
     @Override
     public void update(EventBean[] newData, EventBean[] oldData) {
         for (EventBean event : newData) {
-            String magnitude = (String) event.get("magnitude");
+            Double magnitude = (Double) event.get("magnitude");
             String location = (String) event.get("location");
             String topic = (String) event.get("topic");
 
@@ -19,7 +19,7 @@ public class EsperListner implements UpdateListener {
     }
 
 
-    private void handleCriticalEvent(String magnitude, String location, String topic) {
+    private void handleCriticalEvent(Double magnitude, String location, String topic) {
         if (magnitude != null && location != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("***************************************\n");

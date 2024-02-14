@@ -13,26 +13,39 @@ public class EsperInstance implements InitializingBean {
 
     private EPServiceProvider epService;
     private EPStatement epStatement;
+    private EPAdministrator epAdmin;
 
-    public EsperInstance() {}
-
-    public EsperInstance(Earthquake earthquake) {
-        Configuration config = new Configuration();
-        config.addEventType("Earthquake", Earthquake.class.getName());
-        epService = EPServiceProviderManager.getDefaultProvider(config);
-        configureStatements();
-        sendEvent(earthquake);
-        epStatement.destroy();
+    public EsperInstance() {
     }
+
+    public EsperInstance(String topic) {
+        try{
+            Configuration config = new Configuration();
+            config.addEventType("Earthquake", Earthquake.class.getName());
+            epService = EPServiceProviderManager.getDefaultProvider(config);
+            epAdmin = epService.getEPAdministrator();
+            epStatement = epAdmin.createEPL(getEpl(topic));
+            epStatement.addListener(new EsperListner());
+        }catch (Exception e){
+            log.info("NO DATA FOUND");
+        }
+
+    }
+
+    private String getEpl(String topic) {
+        return "select magnitude, location, topic " +
+                "from Earthquake " +
+                "where magnitude >= 7.2 " +
+                "and topic ='" + topic + "'";
+    }
+
 
     public void sendEvent(Earthquake event) {
         epService.getEPRuntime().sendEvent(event);
     }
 
-    private void configureStatements() {
-        EPAdministrator epAdmin = epService.getEPAdministrator();
-        epStatement = epAdmin.createEPL("select magnitude, location, topic from Earthquake where magnitude >= '7.2'");
-        epStatement.addListener(new EsperListner());
+    public void destroy(Earthquake event) {
+        epService.destroy();
     }
 
 

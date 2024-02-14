@@ -20,14 +20,23 @@ public class CEPInstanceManager {
 
     private EPServiceProvider epService;
 
-    private final Map<String, EsperInstance> esperInstances = new ConcurrentHashMap<>();
+    private final Map<String, EsperInstance> instancesByTopic = new ConcurrentHashMap<>();
 
     public void getOrCreateInstance(Earthquake earthquake) {
-        new EsperInstance(earthquake);
+        String topic = earthquake.getTopic();
+
+        EsperInstance instance = instancesByTopic.get(topic);
+        if (instance == null) {
+            instance = new EsperInstance(topic);
+            instancesByTopic.put(topic, instance);
+        }
+
+        instance.sendEvent(earthquake);
+
     }
 
     public void stopInstance(String topic) {
-        EsperInstance instance = esperInstances.remove(topic);
+        EsperInstance instance = instancesByTopic.remove(topic);
         if (instance != null) {
             instance.stop();
         }

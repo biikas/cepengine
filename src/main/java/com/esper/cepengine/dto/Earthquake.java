@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Earthquake {
 
-    private String magnitude;
+    private Double magnitude;
     private String location;
     private String topic;
 

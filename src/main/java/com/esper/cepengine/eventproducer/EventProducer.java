@@ -44,7 +44,7 @@ public class EventProducer {
             }catch (Exception e){
                 log.error("Error ", e);
             }
-            ThreadUtil.sleepForSecond(30);
+            ThreadUtil.sleepForSecond(10);
         }
     }
     public void processAndSendData(List<Earthquake> data) {

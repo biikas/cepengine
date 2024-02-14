@@ -1,26 +1,26 @@
 [
   {
-    "magnitude": "7.2",
+    "magnitude": 7.2,
     "location": "Location1"
   },
   {
-    "magnitude": "6.5",
+    "magnitude": 6.5,
     "location": "Location2"
   },
   {
-    "magnitude": "6.5",
+    "magnitude": 6.5,
     "location": "Location2"
   },
   {
-    "magnitude": "6.7",
+    "magnitude": 6.7,
     "location": "Location1"
   },
   {
-    "magnitude": "6.5",
+    "magnitude": 6.5,
     "location": "Location2"
   },
   {
-    "magnitude": "6.5",
+    "magnitude": 6.5,
     "location": "Location2"
   }
 ]
