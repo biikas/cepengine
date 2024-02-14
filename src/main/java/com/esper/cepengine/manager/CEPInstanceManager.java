@@ -18,8 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class CEPInstanceManager {
 
-    private EPServiceProvider epService;
-
     private final Map<String, EsperInstance> instancesByTopic = new ConcurrentHashMap<>();
 
     public void getOrCreateInstance(Earthquake earthquake) {
