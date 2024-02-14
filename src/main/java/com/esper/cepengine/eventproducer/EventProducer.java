@@ -5,6 +5,8 @@ import com.esper.cepengine.util.ObjectMapperHelper;
 import com.esper.cepengine.util.ThreadUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,12 +21,15 @@ import java.util.Random;
  */
 @Slf4j
 @Component
+@Getter
+@Setter
 public class EventProducer {
 
     @Autowired
     private ObjectMapperHelper objectMapperHelper;
 
-    private final String[] topics = {"A", "B", "C"};
+    private String[] topics = {"A", "B", "C"};
+
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final Random random = new Random();
 

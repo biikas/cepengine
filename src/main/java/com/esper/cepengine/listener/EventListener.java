@@ -3,6 +3,8 @@ package com.esper.cepengine.listener;
 import com.esper.cepengine.dto.Earthquake;
 import com.esper.cepengine.manager.CEPInstanceManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,12 +15,16 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@Getter
+@Setter
 public class EventListener {
 
     @Autowired
     private CEPInstanceManager cepInstanceManager;
 
-    @KafkaListener(topics = {"A"}, groupId = "test")
+    private String[] topics = {"A", "B", "C"};
+
+    @KafkaListener(topics = topics, groupId = "test")
     public void recieveFromTopicA(String message) {
         try {
             log.info("********************* Consuming from topic A ********************* ");
@@ -35,42 +41,5 @@ public class EventListener {
             log.error("Error : ", e);
         }
     }
-    @KafkaListener(topics = {"B"}, groupId = "test")
-    public void recieveFromTopicB(String message) {
-        try {
-            log.info("********************* Consuming from topic B********************* ");
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
-            earthquake.setTopic("B");
-
-            log.info(earthquake.toString());
-
-            cepInstanceManager.getOrCreateInstance(earthquake);
-
-        } catch (Exception e) {
-
-            log.error("Error : ", e);
-        }
-    }
-    @KafkaListener(topics = { "C"}, groupId = "test")
-    public void recieveFromTopicC(String message) {
-        try {
-            log.info("********************* Consuming from topic C ********************* ");
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
-            earthquake.setTopic("C");
-
-            log.info(earthquake.toString());
-
-            cepInstanceManager.getOrCreateInstance(earthquake);
-
-        } catch (Exception e) {
-
-            log.error("Error : ", e);
-        }
-    }
-
 
 }
