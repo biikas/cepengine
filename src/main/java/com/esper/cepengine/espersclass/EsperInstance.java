@@ -1,6 +1,7 @@
 package com.esper.cepengine.espersclass;
 
 import com.esper.cepengine.dto.Earthquake;
+import com.esper.cepengine.listener.EsperListner;
 import com.espertech.esper.client.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,6 +22,7 @@ public class EsperInstance implements InitializingBean {
         epService = EPServiceProviderManager.getDefaultProvider(config);
         configureStatements();
         sendEvent(earthquake);
+        volcanoEventStatement.destroy();
     }
 
     public void sendEvent(Earthquake event) {
@@ -30,27 +32,9 @@ public class EsperInstance implements InitializingBean {
     private void configureStatements() {
         EPAdministrator epAdmin = epService.getEPAdministrator();
         volcanoEventStatement = epAdmin.createEPL("select magnitude, location, topic from Earthquake where magnitude >= '7.2'");
-        volcanoEventStatement.addListener((newEvents, oldEvents) -> {
-            for (EventBean event : newEvents) {
-                String magnitude = (String) event.get("magnitude");
-                String location = (String) event.get("location");
-                String topic = (String) event.get("topic");
-                handleCriticalEvent(magnitude, location, topic);
-            }
-        });
-        volcanoEventStatement.destroy();
+        volcanoEventStatement.addListener(new EsperListner());
     }
 
-    private void handleCriticalEvent(String magnitude, String location, String topic) {
-        if (magnitude != null && location != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("***************************************\n");
-            sb.append("* [ALERT] : CRITICAL EVENT DETECTED from topic: ").append(topic).append("\n");
-            sb.append("* Location: ").append(location).append(", Magnitude: ").append(magnitude).append("\n");
-            sb.append("***************************************\n");
-            System.out.println(sb);
-        }
-    }
 
     public void stop() {
         // Additional cleanup or shutdown logic if needed
