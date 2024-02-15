@@ -27,7 +27,6 @@ public class KafkaTopicEditor {
         newTopics[oldTopics.length] = topic;
 
         eventProducer.setTopics(newTopics);
-        eventListener.setTopics(newTopics);
 
         return ServerResponse.builder()
                 .message("New topic added successfully!")
@@ -69,7 +68,6 @@ public class KafkaTopicEditor {
         }
 
         eventProducer.setTopics(newTopics);
-        eventListener.setTopics(newTopics);
 
         return ServerResponse.builder()
                 .message("New topic deleted successfully!")
