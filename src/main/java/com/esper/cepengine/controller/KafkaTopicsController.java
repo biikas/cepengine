@@ -42,7 +42,7 @@ public class KafkaTopicsController {
     public ResponseEntity<ServerResponse> getTopic() {
         try {
             log.debug("Entering the kafka topic deletion api........");
-            return ResponseEntity.ok(kafkaTopicEditor.deleteKafkaTopic(topics.getNewTopic()));
+            return ResponseEntity.ok(kafkaTopicEditor.getTopics());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
