@@ -29,8 +29,6 @@ public class KafkaTopicEditor {
         eventProducer.setTopics(newTopics);
         eventListener.setTopics(newTopics);
 
-        eventListener.addTopicListener();
-
         return ServerResponse.builder()
                 .message("New topic added successfully!")
                 .code(0)
@@ -73,13 +71,24 @@ public class KafkaTopicEditor {
         eventProducer.setTopics(newTopics);
         eventListener.setTopics(newTopics);
 
-        eventListener.addTopicListener();
-
         return ServerResponse.builder()
                 .message("New topic deleted successfully!")
                 .code(0)
                 .success(true)
                 .object(newTopics)
+                .build();
+
+    }
+
+    public ServerResponse getTopics(){
+
+        String[] topics = eventProducer.getTopics();
+
+        return ServerResponse.builder()
+                .message("Topics retrieved successfully!")
+                .code(0)
+                .success(true)
+                .object(topics)
                 .build();
 
     }

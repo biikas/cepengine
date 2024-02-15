@@ -22,9 +22,7 @@ public class EventListener {
     @Autowired
     private CEPInstanceManager cepInstanceManager;
 
-    private String[] topics = {"A", "B", "C"};
-
-    @KafkaListener(topics = topics, groupId = "test")
+    @KafkaListener(topics = {"A"}, groupId = "test")
     public void recieveFromTopicA(String message) {
         try {
             log.info("********************* Consuming from topic A ********************* ");
@@ -32,6 +30,42 @@ public class EventListener {
             ObjectMapper objectMapper = new ObjectMapper();
             Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
             earthquake.setTopic("A");
+            log.info(earthquake.toString());
+
+            cepInstanceManager.getOrCreateInstance(earthquake);
+
+        } catch (Exception e) {
+
+            log.error("Error : ", e);
+        }
+    }
+    @KafkaListener(topics = {"B"}, groupId = "test")
+    public void recieveFromTopicB(String message) {
+        try {
+            log.info("********************* Consuming from topic B********************* ");
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
+            earthquake.setTopic("B");
+
+            log.info(earthquake.toString());
+
+            cepInstanceManager.getOrCreateInstance(earthquake);
+
+        } catch (Exception e) {
+
+            log.error("Error : ", e);
+        }
+    }
+    @KafkaListener(topics = { "C"}, groupId = "test")
+    public void recieveFromTopicC(String message) {
+        try {
+            log.info("********************* Consuming from topic C ********************* ");
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Earthquake earthquake = objectMapper.readValue(message, Earthquake.class);
+            earthquake.setTopic("C");
+
             log.info(earthquake.toString());
 
             cepInstanceManager.getOrCreateInstance(earthquake);
