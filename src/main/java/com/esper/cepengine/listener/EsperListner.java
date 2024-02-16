@@ -34,6 +34,7 @@ public class EsperListner implements UpdateListener {
             sb.append("* Location: ").append(location).append(", Magnitude: ").append(magnitude).append("\n");
             sb.append("***************************************\n");
             System.out.println(sb);
+            esperProducer.produceCriticalEvent(new Earthquake(magnitude,location,topic));
         }
     }
 
