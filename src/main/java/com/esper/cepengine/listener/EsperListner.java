@@ -1,11 +1,18 @@
 package com.esper.cepengine.listener;
 
+import com.esper.cepengine.dto.Earthquake;
+import com.esper.cepengine.eventproducer.EsperProducer;
 import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.UpdateListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.*;
 
 @Component
 public class EsperListner implements UpdateListener {
+
+    @Autowired
+    private EsperProducer esperProducer;
 
     @Override
     public void update(EventBean[] newData, EventBean[] oldData) {
